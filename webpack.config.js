@@ -8,7 +8,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         assetModuleFilename: 'assets/[name][ext]'
     },
-    devServer: './dist',
+    devServer: {
+        static: './dist'
+    },
     module: {
         rules: [
             {

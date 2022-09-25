@@ -1,0 +1,15 @@
+header {
+    background: $pink;
+    color: $textColor;
+    grid-area: header;
+    padding: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    h1 {
+        font-size: 40px;
+    }
+}

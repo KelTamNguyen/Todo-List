@@ -1,0 +1,170 @@
+* {
+  font-family: "Roboto", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.content {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  flex-grow: 1;
+}
+
+header {
+  background: #FF1493;
+  color: white;
+  grid-area: header;
+  padding: 1rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo h1 {
+  font-size: 40px;
+}
+
+nav {
+  background: #02b6ff;
+  color: white;
+  padding: 1rem 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  gap: 12px;
+}
+.project-list .project {
+  cursor: pointer;
+  font-size: 24px;
+}
+.project-list h1 {
+  border-bottom: 3px solid white;
+  font-size: 32px;
+}
+.project-list button {
+  background-color: #2dd4bf;
+  border: none;
+  color: white;
+  padding: 4px 0;
+  font-size: 16px;
+}
+.project-list button:hover {
+  background-color: white;
+  color: #2dd4bf;
+}
+
+.container {
+  padding: 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.container .add-btn {
+  border: none;
+  background-color: #2dd4bf;
+  color: white;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 8px;
+  width: 15%;
+  border: 2px solid #2dd4bf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  gap: 4px;
+}
+.container .add-btn:hover {
+  background: white;
+  color: #2dd4bf;
+}
+.container .add-btn .plus {
+  font-size: 24px;
+}
+.container h1 {
+  border-bottom: 3px solid black;
+  margin-bottom: 12px;
+}
+.container ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+}
+.container li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  background-color: #f1f5f9;
+}
+.container li .actions {
+  display: flex;
+  gap: 8px;
+}
+.container li .actions span[class^=material] {
+  cursor: pointer;
+}
+
+.edit:hover {
+  color: #02b6ff;
+}
+
+.delete:hover {
+  color: #dc2626;
+}
+
+.priority-low {
+  border-left: 6px solid #2dd4bf;
+}
+
+.priority-medium {
+  border-left: 6px solid yellow;
+}
+
+.priority-high {
+  border-left: 6px solid #dc2626;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid black;
+  box-sizing: border-box;
+}
+
+.completed .checkbox {
+  background-image: url(../assets/check-mark.png);
+  background-position: 50% 50%;
+  background-size: 22px;
+  background-repeat: no-repeat;
+}
+.completed p {
+  text-decoration: line-through;
+}
+
+.task {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.task p {
+  font-size: 16px;
+}/*# sourceMappingURL=style.css.map */

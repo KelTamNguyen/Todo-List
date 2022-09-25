@@ -1,0 +1,27 @@
+$blue: #02b6ff;
+$pink: #FF1493;
+$textColor: white;
+$green: #2dd4bf;
+$red: #dc2626;
+$yellow: yellow;
+$roboto: 'Roboto', sans-serif;
+$gray: #f1f5f9;
+
+* {
+    font-family: $roboto;
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    flex-grow: 1;
+}
