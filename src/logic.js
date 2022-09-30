@@ -7,8 +7,7 @@ const logic = (() => {
         'Find a Job',
         'Go and get a job',
         new Date(),
-        'high',
-        'notes'
+        'high'
     );
     
     console.log(task);

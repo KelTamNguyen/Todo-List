@@ -5,18 +5,19 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
 }
 
-.project-list {
+%list {
     display: flex;
     flex-direction: column;
-    overflow: auto;
     gap: 12px;
     .project {
         cursor: pointer;
         font-size: 24px;
     }
-    h1 {
+    h2 {
         border-bottom: 3px solid white;
         font-size: 32px;
     }
@@ -31,4 +32,13 @@ nav {
             color: $green;
         }
     }
+}
+
+.recurring-list {
+    @extend %list;
+}
+
+.project-list {
+    @extend %list;
+    overflow: auto;
 }
