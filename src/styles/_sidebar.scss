@@ -1,44 +1,63 @@
 nav {
-    background: $blue;
-    color: $textColor;
-    padding: 1rem 1rem 0;
+    background: #f7f7f7;
     display: flex;
     flex-direction: column;
-    gap: 24px;
     grid-row: 2 / 3;
     grid-column: 1 / 2;
+    justify-content: space-between;
+    padding: 2rem;
 }
 
-%list {
+.nav {
+    font-size: 2rem;
+    list-style: none;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    .project {
+    li:not(:last-child) {
+        display: flex;
+        align-items: center;
         cursor: pointer;
-        font-size: 24px;
-    }
-    h2 {
-        border-bottom: 3px solid white;
-        font-size: 32px;
-    }
-    button {
-        background-color: $green;
-        border: none;
-        color: white;
-        padding: 4px 0;
-        font-size: 16px;
-        &:hover {
-            background-color: white;
-            color: $green;
-        }
+        gap: 6px;
     }
 }
 
-.recurring-list {
-    @extend %list;
+.projects-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.project-list {
-    @extend %list;
-    overflow: auto;
+.projects {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    max-height: 15rem;
+    overflow-y: auto;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $blue;
+        border-radius: 5px;
+    }
+}
+
+#add-project-btn {
+    background-color: $green;
+    border: none;
+    color: white;
+    padding: 4px 0;
+    font-size: 16px;
+    &:hover {
+        background-color: white;
+        color: $green;
+    }
+}
+
+.active {
+    color: $green;
 }
