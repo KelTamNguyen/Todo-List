@@ -7,6 +7,9 @@
 - HTML
 - Webpack
 
+## Modules Used
+- UUID
+
 ## Attribution
 <a href="https://www.flaticon.com/free-icons/compliance" title="compliance icons">Compliance icons created by Freepik - Flaticon</a>
 <br>
