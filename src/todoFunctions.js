@@ -12,6 +12,10 @@ const todoFunctions = (() => {
         return currentProject;
     }
 
+    function setCurrentProject(project) {
+        currentProject = project;
+    }
+
     function addProject(title, description) {
         let project = new Project(title, description);
         projectList[title] = project;
@@ -20,7 +24,7 @@ const todoFunctions = (() => {
     }
     
     function addTask(title, description, dueDate, priority) {
-        let task = new Task(title, description, dueDate, priority);
+        let task = new Task(title, description, new Date(dueDate), priority);
         projectList[currentProject].taskList.push(task);
         localStorage.setItem('projectList', JSON.stringify(projectList));
         renderer.renderProject(projectList[currentProject]);
@@ -32,17 +36,48 @@ const todoFunctions = (() => {
         renderer.renderProject(projectList[currentProject]);
     }
     
-    function editTask(title, description, dueDate, priority) {
-        let id = projectList[currentProject].taskList.find(task => task.title === title).id;
-        console.log(id);
+    function editTask(id, title, description, dueDate, priority) {
+        let target = projectList[currentProject].taskList.find(task => task.id === id);
+        target.title = title;
+        target.description = description;
+        target.dueDate = dueDate;
+        target.priority = priority;
+        localStorage.setItem('projectList', JSON.stringify(projectList));
+        renderer.renderProject(projectList[currentProject]);
+    }
+
+    function toggleCompleteTask(task) {
+        let taskDOM = document.querySelector(`[data-id="${task.id}"]`);
+        task.isCompleted = !task.isCompleted;
+        taskDOM.classList.toggle('completed');
+        localStorage.setItem('projectList', JSON.stringify(projectList));
+        // renderer.renderProject(projectList[currentProject]);
+    }
+
+    function changeView(projectTitle) {
+        // console.log(currentProject.taskList);
+        todoFunctions.setCurrentProject(projectTitle);
+        // console.log(todoFunctions.getCurrentProject());
+        if (projectTitle === 'All') {
+            renderer.renderAllTasks();
+        }
+        else {
+            let project = projectList[projectTitle]
+            console.log(project);
+            renderer.renderProject(project);
+            renderer.renderProjectNames(projectList)
+        }
     }
     
     return {
-        addProject,
         getCurrentProject,
-        editTask,
+        setCurrentProject,
+        addProject,
+        addTask,
         removeTask,
-        addTask
+        editTask,
+        toggleCompleteTask,
+        changeView
     };
 })();
 

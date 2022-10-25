@@ -1,11 +1,9 @@
-import { projectList } from "./index";
 import todoFunctions from "./todoFunctions";
 import domModule from "./domModule";
 
 const renderer = (() => {
     var main = document.querySelector('main');
     function renderProject(currentProject) {
-        // const currentProject = projectList[todoFunctions.getCurrentProject()];
         console.log(currentProject);
 
         main.innerHTML = '';
@@ -27,10 +25,13 @@ const renderer = (() => {
             if (task.isCompleted) todo.classList.add('completed');
             let taskLabel = document.createElement('div');
             taskLabel.classList.add('task');
-            taskLabel.innerHTML = `
-                <div class="task__checkbox"></div>
-                <p class="task__title">${task.title}</p>
-            `;
+            let checkBox = document.createElement('div');
+            checkBox.classList.add('task__checkbox');
+            checkBox.addEventListener('click', () => todoFunctions.toggleCompleteTask(task));
+            let taskTitle = document.createElement('p');
+            taskTitle.classList.add('task__title');
+            taskTitle.textContent = task.title;
+            taskLabel.append(checkBox, taskTitle);
             let actions = document.createElement('div');
             actions.classList.add('actions');
             let deadline = document.createElement('p');
@@ -63,12 +64,44 @@ const renderer = (() => {
         main.append(projectTitle, divider, todoList, addTaskBtn);
     }
 
-    function renderProjectNames() {
-        
+    function renderProjectNames(projectList) {
+        let projects = document.getElementById('projects');
+        let customProjects = Object.assign({}, projectList);
+        delete customProjects.all;
+        delete customProjects.today;
+        delete customProjects.week;
+
+        projects.innerHTML = '';
+
+        for (let project in customProjects) {
+            let item = document.createElement('li');
+            item.textContent = project;
+            item.addEventListener('click', () => todoFunctions.changeView(project));
+            if (project === todoFunctions.getCurrentProject()) {
+                item.classList.add('active')
+            }
+            projects.append(item);
+        }
+    }
+    
+    function renderAllTasks() {
+
+    }
+
+    function renderTodaysTasks() {
+
+    }
+
+    function renderWeeklyTasks() {
+
     }
 
     return {
-        renderProject
+        renderProject,
+        renderProjectNames,
+        renderAllTasks,
+        renderTodaysTasks,
+        renderWeeklyTasks
     }
 })();
 

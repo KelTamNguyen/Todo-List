@@ -7,11 +7,14 @@ $yellow: yellow;
 $roboto: 'Roboto', sans-serif;
 $gray: #f1f5f9;
 
+*, *:before, *:after{
+    box-sizing: border-box;
+}
+
 * {
     font-family: $roboto;
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
 }
 
 .content {

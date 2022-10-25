@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
+import { format } from 'date-fns';
 export default class Task {
     constructor(title, description, dueDate, priority, isCompleted = false) {
         this.title = title;
         this.description = description;
-        this.dueDate = dueDate;
+        this.dueDate = format(dueDate, 'yyyy-MM-dd');
+        // this.dueDate = dueDate;
         this.priority = priority;
         this.isCompleted = isCompleted;
         this.id = uuidv4()

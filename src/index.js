@@ -18,9 +18,12 @@ var newTaskForm = document.getElementById('new-task-form');
 var editForm = document.getElementById('edit-task-form');
 
 const projectList = JSON.parse(localStorage.getItem('projectList')) || {
-    week: new Project("This Week", "Tasks due this week."),
-    today: new Project("Today", "Tasks due today."),
-    "Default Project": new Project("Default Project", "Tasks for home.")
+    "All": new Project("All", "All tasks"),
+    "Week": new Project("This Week", "Tasks due this week."),
+    "Today": new Project("Today", "Tasks due today."),
+    "Default Project": new Project("Default Project", "Tasks for home."),
+    "Another Project": new Project("Another Project", "Another Project for testing purposes"),
+    "Empty Project": new Project("Empty Project", "This is a Demo for an empty project")
 };
 
 if (!localStorage.getItem('projectList')) {
@@ -57,6 +60,20 @@ if (!localStorage.getItem('projectList')) {
             "high",
         )
     );
+    projectList["Another Project"].taskList.push([
+        new Task(
+            "Renew Passport",
+            "You're going to travel somewhere",
+            new Date(2022, 10, 24),
+            "high"
+        ),
+        new Task(
+            "Recycle batteries",
+            "Yes, you can do that!",
+            new Date(2022, 12, 25),
+            "low"
+        )
+    ]);
     localStorage.setItem('projectList', JSON.stringify(projectList));
 }
 
@@ -72,18 +89,8 @@ newProjectForm.addEventListener('submit', domModule.handleNewProjectSubmit);
 newTaskForm.addEventListener('submit', domModule.handleNewTask);
 editForm.addEventListener('submit', (e) => domModule.handleEdit(e));
 
-for (let child of nav.childNodes) {
-    if (child.id !== 'project-list') {
-        child.addEventListener('click', () => {
-            for (let i = 0; i < nav.children.length; i++) {
-                nav.children[i].classList.remove('active');
-            }
-            child.classList.add('active');
-        })
-    }
-}
-
 // initial load
 renderer.renderProject(projectList[todoFunctions.getCurrentProject()]);
+renderer.renderProjectNames(projectList);
 
 export {projectList};

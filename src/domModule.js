@@ -1,4 +1,5 @@
 // dom functions defined here
+import renderer from './renderer';
 import todoFunctions from './todoFunctions';
 
 const domModule = (() => {
@@ -22,8 +23,11 @@ const domModule = (() => {
     function openEditModal(task) {
         const { title, description, dueDate, priority} = task;
         editForm["task"].value = title;
+        editForm["task"].dataset.id = task.id;
         editForm["task-description"].value = description;
-        editForm["due-date"].value = dueDate;
+        // editForm["due-date"].valueAsDate = dueDate;
+        console.log(dueDate);
+        console.log(typeof dueDate);
         editForm["priority"].value = priority;
         editModal.classList.add('modal-active');
     }
@@ -49,6 +53,7 @@ const domModule = (() => {
 
     function closeEditModal() {
         editForm.reset();
+        editForm["task"].dataset.id = "";
         editModal.classList.remove('modal-active');
     }
 
@@ -84,13 +89,29 @@ const domModule = (() => {
     function handleEdit(e) {
         e.preventDefault();
         todoFunctions.editTask(
+            editForm["task"].dataset.id,
             editForm["task"].value,
             editForm["task-description"].value,
             editForm["due-date"].value,
             editForm["priority"].value
         );
-        // closeEditModal();
+        closeEditModal();
     }
+
+    // function changeView(projectTitle) {
+    //     // console.log(currentProject.taskList);
+    //     todoFunctions.setCurrentProject(projectTitle);
+    //     // console.log(todoFunctions.getCurrentProject());
+    //     if (projectTitle === 'All') {
+    //         renderer.renderAllTasks();
+    //     }
+    //     else {
+    //         // set project to active
+    //         console.log(projectTitle);
+    //         let project = 
+    //         renderer.renderProject(project);
+    //     }
+    // }
 
     return {
         openTaskModal,

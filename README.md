@@ -20,3 +20,5 @@
 <a href="https://www.flaticon.com/free-icons/today" title="today icons">Today icons created by Freepik - Flaticon</a>
 <br>
 <a href="https://www.flaticon.com/free-icons/project" title="project icons">Project icons created by Freepik - Flaticon</a>
+<br>
+<a href="https://www.flaticon.com/free-icons/all" title="all icons">"All" icons created by Dreamstale - Flaticon</a>
