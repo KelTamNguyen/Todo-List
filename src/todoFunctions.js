@@ -5,8 +5,7 @@ import { projectList } from './index';
 import renderer from './renderer';
 
 const todoFunctions = (() => {
-    // let currentProject = "today";
-    let currentProject = "Default Project";
+    let currentProject = "All";
 
     function getCurrentProject() {
         return currentProject;
@@ -14,6 +13,14 @@ const todoFunctions = (() => {
 
     function setCurrentProject(project) {
         currentProject = project;
+    }
+
+    function getCustomProjects() {
+        let customProjects = Object.assign({}, projectList);
+        delete customProjects["All"];
+        delete customProjects["Today"];
+        delete customProjects["Week"];
+        return customProjects;
     }
 
     function addProject(title, description) {
@@ -51,27 +58,33 @@ const todoFunctions = (() => {
         task.isCompleted = !task.isCompleted;
         taskDOM.classList.toggle('completed');
         localStorage.setItem('projectList', JSON.stringify(projectList));
-        // renderer.renderProject(projectList[currentProject]);
     }
 
     function changeView(projectTitle) {
-        // console.log(currentProject.taskList);
-        todoFunctions.setCurrentProject(projectTitle);
-        // console.log(todoFunctions.getCurrentProject());
+        setCurrentProject(projectTitle);
         if (projectTitle === 'All') {
-            renderer.renderAllTasks();
+            renderer.renderAllTasks(projectList);
+            renderer.renderProjectNames(projectList);
+        } 
+        else if (projectTitle === 'Today') {
+            renderer.renderTodaysTasks(projectList);
+            renderer.renderProjectNames(projectList);
+        }
+        else if (projectTitle === 'Week') {
+            renderer.renderWeeklyTasks(projectList);
+            renderer.renderProjectNames(projectList);
         }
         else {
             let project = projectList[projectTitle]
-            console.log(project);
             renderer.renderProject(project);
-            renderer.renderProjectNames(projectList)
+            renderer.renderProjectNames(projectList);
         }
     }
     
     return {
         getCurrentProject,
         setCurrentProject,
+        getCustomProjects,
         addProject,
         addTask,
         removeTask,

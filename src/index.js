@@ -60,7 +60,7 @@ if (!localStorage.getItem('projectList')) {
             "high",
         )
     );
-    projectList["Another Project"].taskList.push([
+    projectList["Another Project"].taskList.push(
         new Task(
             "Renew Passport",
             "You're going to travel somewhere",
@@ -73,7 +73,7 @@ if (!localStorage.getItem('projectList')) {
             new Date(2022, 12, 25),
             "low"
         )
-    ]);
+    );
     localStorage.setItem('projectList', JSON.stringify(projectList));
 }
 
@@ -90,7 +90,8 @@ newTaskForm.addEventListener('submit', domModule.handleNewTask);
 editForm.addEventListener('submit', (e) => domModule.handleEdit(e));
 
 // initial load
-renderer.renderProject(projectList[todoFunctions.getCurrentProject()]);
+// renderer.renderProject(projectList[todoFunctions.getCurrentProject()]);
+renderer.renderAllTasks(projectList);
 renderer.renderProjectNames(projectList);
 
 export {projectList};
