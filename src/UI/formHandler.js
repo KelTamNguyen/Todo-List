@@ -1,8 +1,8 @@
 // dom functions defined here
-import renderer from './renderer';
-import todoFunctions from './todoFunctions';
+import domManipulator from './domManipulator';
+import taskFunctions from '../taskFunctions';
 
-const domModule = (() => {
+const formHandler = (() => {
     let taskModal = document.getElementById('task-modal');
     let projectModal = document.getElementById('project-modal');
     let editModal = document.getElementById('edit-modal');
@@ -25,7 +25,6 @@ const domModule = (() => {
         editForm["task"].value = title;
         editForm["task"].dataset.id = task.id;
         editForm["task-description"].value = description;
-        // editForm["due-date"].valueAsDate = dueDate;
         console.log(dueDate);
         console.log(typeof dueDate);
         editForm["priority"].value = priority;
@@ -71,13 +70,13 @@ const domModule = (() => {
         newProject.addEventListener('click', () => {
             newProject.classList.add('active');
         });
-        todoFunctions.addProject(title, desc);
+        taskFunctions.addProject(title, desc);
         closeProjectModal();
     }
 
     function handleNewTask(e) {
         e.preventDefault();
-        todoFunctions.addTask(
+        taskFunctions.addTask(
             taskForm["task"].value,
             taskForm["task-description"].value,
             taskForm["due-date"].value,
@@ -88,7 +87,7 @@ const domModule = (() => {
 
     function handleEdit(e) {
         e.preventDefault();
-        todoFunctions.editTask(
+        taskFunctions.editTask(
             editForm["task"].dataset.id,
             editForm["task"].value,
             editForm["task-description"].value,
@@ -97,21 +96,6 @@ const domModule = (() => {
         );
         closeEditModal();
     }
-
-    // function changeView(projectTitle) {
-    //     // console.log(currentProject.taskList);
-    //     todoFunctions.setCurrentProject(projectTitle);
-    //     // console.log(todoFunctions.getCurrentProject());
-    //     if (projectTitle === 'All') {
-    //         renderer.renderAllTasks();
-    //     }
-    //     else {
-    //         // set project to active
-    //         console.log(projectTitle);
-    //         let project = 
-    //         renderer.renderProject(project);
-    //     }
-    // }
 
     return {
         openTaskModal,
@@ -128,4 +112,4 @@ const domModule = (() => {
     }
 })();
 
-export default domModule;
+export default formHandler;

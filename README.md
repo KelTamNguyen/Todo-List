@@ -5,10 +5,16 @@
 - Javascript
 - SCSS
 - HTML
-- Webpack
 
 ## Modules Used
 - UUID
+- Webpack
+- date-fns
+
+## Outcomes
+- Learned the **Single Responsibility Principle** by separating the UI from the application logic
+- Implemented a basic backend using `localstorage`
+- Created a layout using **CSS Grid** and **CSS Flexbox**
 
 ## Attribution
 <a href="https://www.flaticon.com/free-icons/compliance" title="compliance icons">Compliance icons created by Freepik - Flaticon</a>

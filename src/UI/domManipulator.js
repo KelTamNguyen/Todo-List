@@ -1,7 +1,7 @@
-import todoFunctions from "./todoFunctions";
-import domModule from "./domModule";
+import taskFunctions from "../taskFunctions";
+import formHandler from "./formHandler";
 
-const renderer = (() => {
+const domManipulator = (() => {
     var main = document.querySelector('main');
 
     function createTask(task) {
@@ -13,7 +13,7 @@ const renderer = (() => {
         taskLabel.classList.add('task');
         let checkBox = document.createElement('div');
         checkBox.classList.add('task__checkbox');
-        checkBox.addEventListener('click', () => todoFunctions.toggleCompleteTask(task));
+        checkBox.addEventListener('click', () => taskFunctions.toggleCompleteTask(task));
         let taskTitle = document.createElement('p');
         taskTitle.classList.add('task__title');
         taskTitle.textContent = task.title;
@@ -25,23 +25,21 @@ const renderer = (() => {
         let details = document.createElement('span');
         details.classList.add('material-symbols-outlined', 'info');
         details.textContent = 'info';
-        details.addEventListener('click', () => domModule.openDetailsModal(task));
+        details.addEventListener('click', () => formHandler.openDetailsModal(task));
         let editTask = document.createElement('span');
         editTask.classList.add('material-symbols-outlined', 'edit');
         editTask.textContent = 'edit';
-        editTask.addEventListener('click', () => domModule.openEditModal(task));
+        editTask.addEventListener('click', () => formHandler.openEditModal(task));
         let deleteTask = document.createElement('span');
         deleteTask.classList.add('material-symbols-outlined', 'delete');
         deleteTask.textContent = 'delete';
-        deleteTask.addEventListener('click', () => todoFunctions.removeTask(task.id));
+        deleteTask.addEventListener('click', () => taskFunctions.removeTask(task.id));
         actions.append(details, deadline, editTask, deleteTask);
         taskDOM.append(taskLabel, actions);
         return taskDOM;
     }
 
     function renderProject(currentProject) {
-        console.log(currentProject);
-
         main.innerHTML = '';
         let projectTitle = document.createElement('div');
         projectTitle.classList.add('project-title');
@@ -65,47 +63,23 @@ const renderer = (() => {
             <span class="material-symbols-outlined">add</span>
             Add New Task
         `;
-        addTaskBtn.addEventListener('click', domModule.openTaskModal);
+        addTaskBtn.addEventListener('click', formHandler.openTaskModal);
 
         main.append(projectTitle, divider, todoList, addTaskBtn);
     }
 
-    function renderProjectNames(projectList) {
-        let recurring = document.getElementById('nav');
-        let all = document.getElementById('all');
-        let today = document.getElementById('today');
-        let week = document.getElementById('week');
-        let projects = document.getElementById('projects');
-
-        all.addEventListener('click', () => todoFunctions.changeView('All'));
-        today.addEventListener('click', () => todoFunctions.changeView('Today'));
-        week.addEventListener('click', () => todoFunctions.changeView('Week'));
-
-        let customProjects = todoFunctions.getCustomProjects();
-        projects.innerHTML = '';
-
-        for (let project in customProjects) {
-            let item = document.createElement('li');
-            item.textContent = project;
-            item.addEventListener('click', () => todoFunctions.changeView(project));
-            if (project === todoFunctions.getCurrentProject()) {
-                item.classList.add('active')
-            }
-            projects.append(item);
-        }
-    }
     
     function renderAllTasks(projectList) {
         main.innerHTML = '';
         let projectTitle = document.createElement('div');
         projectTitle.classList.add('project-title');
         projectTitle.innerHTML= `
-            <h2>${projectList["All"].title}</h2>
-            <p>${projectList["All"].description}</p>
+        <h2>${projectList["All"].title}</h2>
+        <p>${projectList["All"].description}</p>
         `;
         let divider = document.createElement('div');
         divider.classList.add('divider');
-        let customProjects = todoFunctions.getCustomProjects();
+        let customProjects = taskFunctions.getCustomProjects();
         let todoList = document.createElement('div');
         todoList.classList.add('todo-list');
         todoList.id = 'todo-list';
@@ -122,26 +96,92 @@ const renderer = (() => {
             <span class="material-symbols-outlined">add</span>
             Add New Task
         `;
-        addTaskBtn.addEventListener('click', domModule.openTaskModal);
-
+        addTaskBtn.addEventListener('click', formHandler.openTaskModal);
+        
         main.append(projectTitle, divider, todoList, addTaskBtn);
     }
-
+    
     function renderTodaysTasks(projectList) {
+        main.innerHTML = '';
+        let projectTitle = document.createElement('div');
+        projectTitle.classList.add('project-title');
+        projectTitle.innerHTML= `
+        <h2>${projectList["Today"].title}</h2>
+        <p>${projectList["Today"].description}</p>
+        `;
+        let divider = document.createElement('div');
+        divider.classList.add('divider');
+        let todoList = document.createElement('div');
+        todoList.classList.add('todo-list');
+        todoList.id = 'todo-list';
+        let tasksDueToday = taskFunctions.getTasksDueToday();
+        tasksDueToday.forEach(task => {
+            let todo = createTask(task);
+            todoList.appendChild(todo);
+        })
 
+        main.append(projectTitle, divider, todoList);
+    }
+    
+    function renderWeeklyTasks(projectList) {
+        main.innerHTML = '';
+        let projectTitle = document.createElement('div');
+        projectTitle.classList.add('project-title');
+        projectTitle.innerHTML= `
+        <h2>${projectList["Week"].title}</h2>
+        <p>${projectList["Week"].description}</p>
+        `;
+        let divider = document.createElement('div');
+        divider.classList.add('divider');
+        let todoList = document.createElement('div');
+        todoList.classList.add('todo-list');
+        todoList.id = 'todo-list';
+        let tasksDueThisWeek = taskFunctions.getTasksDueThisWeek();
+        tasksDueThisWeek.forEach(task => {
+            let todo = createTask(task);
+            todoList.appendChild(todo);
+        })
+
+        main.append(projectTitle, divider, todoList);
+    }
+    
+    function renderProjectNames() {
+        let projects = document.getElementById('projects');
+        let customProjects = taskFunctions.getCustomProjects();
+        projects.innerHTML = '';
+
+        for (let project in customProjects) {
+            let item = document.createElement('li');
+            item.textContent = project;
+            item.addEventListener('click', () => taskFunctions.changeView(project));
+            if (project === taskFunctions.getCurrentProject()) {
+                // there is probably a better way to handle changing the sidebar than this
+                for (let i = 0; i < nav.children.length; i++) {
+                    nav.children[i].classList.remove('active');
+                }
+                item.classList.add('active')
+            }
+            projects.append(item);
+        }
     }
 
-    function renderWeeklyTasks(projectList) {
-
+    function updateNav(projectTitle) {
+        let nav = document.getElementById('nav');
+        let destination = document.getElementById(projectTitle.toLowerCase());
+        for (let i = 0; i < nav.children.length; i++) {
+            nav.children[i].classList.remove('active');
+        }
+        destination.classList.add('active');
     }
 
     return {
         renderProject,
-        renderProjectNames,
         renderAllTasks,
         renderTodaysTasks,
-        renderWeeklyTasks
+        renderWeeklyTasks,
+        renderProjectNames,
+        updateNav
     }
 })();
 
-export default renderer;
+export default domManipulator;

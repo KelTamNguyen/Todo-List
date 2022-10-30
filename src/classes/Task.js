@@ -5,7 +5,6 @@ export default class Task {
         this.title = title;
         this.description = description;
         this.dueDate = format(dueDate, 'yyyy-MM-dd');
-        // this.dueDate = dueDate;
         this.priority = priority;
         this.isCompleted = isCompleted;
         this.id = uuidv4()

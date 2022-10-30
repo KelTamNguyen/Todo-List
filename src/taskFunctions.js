@@ -1,10 +1,10 @@
 import Project from './classes/Project';
 import Task from './classes/Task';
-import {format} from 'date-fns';
+import {isThisWeek, isToday, parseISO } from 'date-fns';
 import { projectList } from './index';
-import renderer from './renderer';
+import domManipulator from './UI/domManipulator';
 
-const todoFunctions = (() => {
+const taskFunctions = (() => {
     let currentProject = "All";
 
     function getCurrentProject() {
@@ -34,13 +34,13 @@ const todoFunctions = (() => {
         let task = new Task(title, description, new Date(dueDate), priority);
         projectList[currentProject].taskList.push(task);
         localStorage.setItem('projectList', JSON.stringify(projectList));
-        renderer.renderProject(projectList[currentProject]);
+        domManipulator.renderProject(projectList[currentProject]);
     }
     
     function removeTask(id) {
         projectList[currentProject].taskList = projectList[currentProject].taskList.filter(task => task.id !== id);
         localStorage.setItem('projectList', JSON.stringify(projectList));
-        renderer.renderProject(projectList[currentProject]);
+        domManipulator.renderProject(projectList[currentProject]);
     }
     
     function editTask(id, title, description, dueDate, priority) {
@@ -50,7 +50,7 @@ const todoFunctions = (() => {
         target.dueDate = dueDate;
         target.priority = priority;
         localStorage.setItem('projectList', JSON.stringify(projectList));
-        renderer.renderProject(projectList[currentProject]);
+        domManipulator.renderProject(projectList[currentProject]);
     }
 
     function toggleCompleteTask(task) {
@@ -61,24 +61,56 @@ const todoFunctions = (() => {
     }
 
     function changeView(projectTitle) {
+        // This is a backend function because the frontend needs the backend to change the current
+        // project. Then, the backend will call make the proper calls to the renderer to change the
+        // frontend
         setCurrentProject(projectTitle);
         if (projectTitle === 'All') {
-            renderer.renderAllTasks(projectList);
-            renderer.renderProjectNames(projectList);
+            domManipulator.renderAllTasks(projectList);
+            domManipulator.renderProjectNames(projectList);
+            domManipulator.updateNav(projectTitle)
         } 
         else if (projectTitle === 'Today') {
-            renderer.renderTodaysTasks(projectList);
-            renderer.renderProjectNames(projectList);
+            domManipulator.renderTodaysTasks(projectList);
+            domManipulator.renderProjectNames(projectList);
+            domManipulator.updateNav(projectTitle);
         }
         else if (projectTitle === 'Week') {
-            renderer.renderWeeklyTasks(projectList);
-            renderer.renderProjectNames(projectList);
+            domManipulator.renderWeeklyTasks(projectList);
+            domManipulator.renderProjectNames(projectList);
+            domManipulator.updateNav(projectTitle);
         }
         else {
             let project = projectList[projectTitle]
-            renderer.renderProject(project);
-            renderer.renderProjectNames(projectList);
+            domManipulator.renderProject(project);
+            domManipulator.renderProjectNames(projectList);
         }
+    }
+
+    function getTasksDueThisWeek() {
+        let customProjects = getCustomProjects();
+        let tasksDueThisWeek = [];
+        for (let project in customProjects) {
+            customProjects[project].taskList.forEach(task => {
+                if (isThisWeek(parseISO(task.dueDate))) {
+                    tasksDueThisWeek.push(task);
+                }
+            })
+        }
+        return tasksDueThisWeek;
+    }
+
+    function getTasksDueToday() {
+        let customProjects = getCustomProjects();
+        let tasksDueToday = [];
+        for (let project in customProjects) {
+            customProjects[project].taskList.forEach(task => {
+                if (isToday(parseISO(task.dueDate))) {
+                    tasksDueToday.push(task);
+                }
+            })
+        }
+        return tasksDueToday;
     }
     
     return {
@@ -90,8 +122,10 @@ const todoFunctions = (() => {
         removeTask,
         editTask,
         toggleCompleteTask,
-        changeView
+        changeView,
+        getTasksDueThisWeek,
+        getTasksDueToday
     };
 })();
 
-export default todoFunctions;
+export default taskFunctions;
