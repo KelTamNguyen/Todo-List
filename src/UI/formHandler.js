@@ -63,14 +63,9 @@ const formHandler = (() => {
     function handleNewProjectSubmit(e) {
         e.preventDefault();
         let title = projectForm["project-title"].value;
-        let desc = projectForm["project-description"].value;
-        let newProject = document.createElement('li');
-        newProject.textContent = title;
-        projects.appendChild(newProject);
-        newProject.addEventListener('click', () => {
-            newProject.classList.add('active');
-        });
+        let desc = projectForm["project-description"].value;assList.add('active');
         taskFunctions.addProject(title, desc);
+        domManipulator.renderProjectNames();
         closeProjectModal();
     }
 

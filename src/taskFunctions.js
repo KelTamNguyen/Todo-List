@@ -27,7 +27,6 @@ const taskFunctions = (() => {
         let project = new Project(title, description);
         projectList[title] = project;
         localStorage.setItem('projectList', JSON.stringify(projectList));
-        console.log(projectList);
     }
     
     function addTask(title, description, dueDate, priority) {
