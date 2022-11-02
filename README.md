@@ -1,20 +1,21 @@
 # Todo-List
-### This is a todo list app built as part of The Odin Project. 
+This is a todo list app built as part of The Odin Project. 
 
 ## Built With
 - Javascript
 - SCSS
 - HTML
+- Webpack
 
 ## Modules Used
 - UUID
-- Webpack
 - date-fns
 
 ## Outcomes
 - Learned the **Single Responsibility Principle** by separating the UI from the application logic
 - Implemented a basic backend using `localstorage`
 - Created a layout using **CSS Grid** and **CSS Flexbox**
+- Create readable code according to the AirBnB style guide using `ESLint`
 
 ## Attribution
 <a href="https://www.flaticon.com/free-icons/compliance" title="compliance icons">Compliance icons created by Freepik - Flaticon</a>
